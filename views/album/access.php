@@ -98,7 +98,7 @@ $this->title = $name .' Yetkilendirmesi';
 
                'delete' => function ($data,$model) {
 
-                                return Html::a('<span class="glyphicon glyphicon-plus"></span>', 
+                                return Html::a('<span class="glyphicon glyphicon-trash"></span>', 
                                     ['album/del','id'=>$model->id]
                                 );
                 },
