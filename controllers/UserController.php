@@ -76,7 +76,7 @@ class UserController extends Controller
          $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->redirect('index.php?r=photoalbum/user');
+        return $this->redirect(['user/index']);
         
     }
 
@@ -89,7 +89,7 @@ class UserController extends Controller
          $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->redirect('index.php?r=photoalbum/user');
+         return $this->redirect(['user/index']);
         
     }
 
@@ -100,7 +100,7 @@ class UserController extends Controller
         $sql=(new \yii\db\Query())->createCommand()->delete('friends', 'userOne ='. "'$username'".' and userTwo='. "'$user'")->execute();
  
 
-        return $this->redirect('index.php?r=photoalbum/user');
+         return $this->redirect(['user/index']);
         
     }
 
@@ -133,17 +133,40 @@ class UserController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
+        $id=Yii::$app->user->identity->id;
+        $username=Yii::$app->user->identity->username;
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+        Yii::$app->db->createCommand()->update('user', ['firstname' => $model->firstname , 'lastname'=>$model->lastname], 'id = '.$id)->execute();
+        Yii::$app->db->createCommand()->update('yetki', ['name' => $model->firstname , 'surname'=>$model->lastname], 'username ='. "'$username'")->execute();
+
+        Yii::$app->db->createCommand()->update('friends', ['oFN' => $model->firstname , 'oLN'=>$model->lastname],  'userOne ='. "'$username'")->execute();
+
+        Yii::$app->db->createCommand()->update('friends', ['tFN' => $model->firstname , 'tLN'=>$model->lastname],  'userTwo ='. "'$username'")->execute();
+
+
+            return $this->redirect(['album/index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionGuncelle()
+    {
+        $id=Yii::$app->user->identity->id;
+        $user = User::findOne($id);
+
+        $user->firstname = $model->firstname;
+        $user->lastname = $model->lastname;
+        $user->email  = $model->email;
+        //$user->update();
+       
     }
 
     /**
