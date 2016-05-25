@@ -4,7 +4,7 @@ namespace kivanceren\photoalbum\controllers;
 
 use Yii;
 use kivanceren\photoalbum\models\Friends;
-use kivanceren\photoalbum\FriendsSearch;
+use kivanceren\photoalbum\models\FriendsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
