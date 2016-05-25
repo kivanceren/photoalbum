@@ -2,7 +2,7 @@
 
 namespace kivanceren\photoalbum;
 
-class Module extends \yii\base\Module
+class fotograf extends \yii\base\Module
 {
     public $controllerNamespace = 'kivanceren\photoalbum\controllers';
 
